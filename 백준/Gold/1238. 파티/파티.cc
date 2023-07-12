@@ -1,33 +1,29 @@
 #include <iostream>
 #include <vector>
-#include <set>
+#include <queue>
 #define inf 10000000
 using namespace std;
 
-int edge[1001][1001];
-int rvsEdge[1001][1001];
-int fromDest[1001];
-int toDest[1001];
 
-void dijkstra(int start, int n, int edge[][1001], int result[]);
-void print(int n, int result[]);
+void dijkstra(vector<vector<pair<int, int>>>& edge, int start, int n, vector<int>& result);
 
 int main() {
     int n, m, x;
     cin >> n >> m >> x;
-    for(int i = 1; i <= n; i++)
-        for(int j = 1; j <= n; j++)
-            edge[i][j] = rvsEdge[i][j] = inf;
 
+    vector<vector<pair<int, int>>> edge(n + 1);
+    vector<vector<pair<int, int>>> rvsEdge(n + 1);
     for(int i = 0; i < m; i++) {
         int start, end, time;
         cin >> start >> end >> time;
-        edge[start][end] = time;
-        rvsEdge[end][start] = time;
+        edge[start].push_back({end, time});
+        rvsEdge[end].push_back({start, time});
     }
 
-    dijkstra(x, n, edge, fromDest);
-    dijkstra(x, n, rvsEdge, toDest);
+    vector<int> fromDest;
+    vector<int> toDest;
+    dijkstra(edge, x, n, fromDest);
+    dijkstra(rvsEdge, x, n, toDest);
 
     int max = 0;
     for(int i = 1; i <= n; i++)
@@ -37,36 +33,23 @@ int main() {
     return 0;
 }
 
-void dijkstra(int start, int n, int edge[][1001], int result[]) {
-    set<int> s;
-    s.insert(start);
-    int vertex[1001] = {0};
-    int length[1001] = {0};
-    for(int i = 1; i <= n; i++)
-        length[i] = inf;
-    
-    int nextVertex = start;
-    s.insert(nextVertex);
-    while(s.size() != n) {
-        for(int i = 1; i <= n; i++)
-            if(s.find(i) == s.end() && length[i] > result[nextVertex] + edge[nextVertex][i]) {
-                vertex[i] = nextVertex;
-                length[i] = result[nextVertex] + edge[nextVertex][i];
-            }
-        
-        int min = inf;
-        for(int i = 1; i <= n; i++)
-            if(s.find(i) == s.end() && min > length[i]) {
-                min = length[i];
-                nextVertex = i;
-            }
-        result[nextVertex] = length[nextVertex];
-        s.insert(nextVertex);
-    }
-}
+void dijkstra(vector<vector<pair<int, int>>>& edge, int start, int num, vector<int>& result) {
+    result.assign(num + 1, inf);
+    result[start] = 0;
 
-void print(int n, int result[]) {
-    for(int i = 1; i <= n; i++)
-        cout << i << ":\t" << result[i] << '\n';
-    cout << '\n';
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, start});
+    while(!pq.empty()) {
+        auto [weight, vertex] = pq.top();
+        pq.pop();
+        
+        for(int i = 0; i < edge[vertex].size(); i++) {
+            auto [nextVertex, nextWeight] = edge[vertex][i];
+
+            if(result[nextVertex] > weight + nextWeight) {
+                result[nextVertex] = weight + nextWeight;
+                pq.push({weight + nextWeight, nextVertex});
+            }
+        }
+    }
 }
