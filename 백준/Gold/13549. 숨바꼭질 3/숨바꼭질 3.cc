@@ -2,7 +2,7 @@
 #include <queue>
 using namespace std;
 
-bool isVisited[200001] = {false};
+bool isVisited[100001] = {false};
 
 int main() {
     int n, k;
@@ -19,7 +19,7 @@ int main() {
             return 0;
         }
 
-        if(2 * pos <= 200000 && !isVisited[2 * pos]) {
+        if(2 * pos <= 100000 && !isVisited[2 * pos]) {
             q.push({2 * pos, lv});
             isVisited[2 * pos] = true;
         }
