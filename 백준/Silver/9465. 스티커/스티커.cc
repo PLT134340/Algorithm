@@ -4,6 +4,10 @@ using namespace std;
 int dp[2][100000];
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    
     int t;
     cin >> t;
     for(int i = 0; i < t; i++) {
