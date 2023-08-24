@@ -11,18 +11,19 @@ int main() {
     int n;
     cin >> n;
 
-    set<string> hs;
+    set<string> s;
     int count = 0;
     for(int i = 0; i < n; i++) {
         string str;
         cin >> str;
-        if(str == "ENTER")
-            hs.clear();
-        else if(hs.find(str) == hs.end()) {
-            count++;
-            hs.insert(str);   
+        if(str == "ENTER") {
+            count += s.size();
+            s.clear();
         }
+        else
+            s.insert(str);   
     }
+    count += s.size();
 
     cout << count << '\n';
     return 0;
