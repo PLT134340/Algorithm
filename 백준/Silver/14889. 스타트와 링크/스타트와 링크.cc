@@ -3,10 +3,11 @@
 using namespace std;
 
 int synergy[20][20] = {0};
-set<int> team;
+set<int> team1;
+set<int> team2;
 int min = INT32_MAX;
 
-void divideTeam(int lv, int end);
+void divideTeam(int lv, int end, int sum1, int sum2);
 
 int main() {
     ios::sync_with_stdio(false);
@@ -19,31 +20,30 @@ int main() {
         for(int j = 0; j < n; j++)
             cin >> synergy[i][j];
 
-    divideTeam(0, n);
+    divideTeam(0, n, 0, 0);
 
     cout << ::min << '\n';
     return 0;
 }
 
-void divideTeam(int lv, int end) {
-    if(lv == end && team.size() == end / 2) {
-        int sum1 = 0;
-        int sum2 = 0;
-        for(int i = 0; i < end; i++)
-            for(int j = 0; j < end; j++)
-                if(team.find(i) != team.end() && team.find(j) != team.end())
-                    sum1 += synergy[i][j];
-                else if(team.find(i) == team.end() && team.find(j) == team.end())
-                    sum2 += synergy[i][j];
-
+void divideTeam(int lv, int end, int sum1, int sum2) {
+    if(lv == end && team1.size() == end / 2 && team2.size() == end / 2) {
         int result = abs(sum1 - sum2);
         if(::min > result)
             ::min = result;
     } else if(lv < end) {
-        divideTeam(lv + 1, end);
+        int newSum2 = sum2;
+        for(auto it = team2.begin(); it != team2.end(); it++)
+            newSum2 += synergy[lv][*it] + synergy[*it][lv];
+        team2.insert(lv);
+        divideTeam(lv + 1, end, sum1, newSum2);
+        team2.erase(lv);
 
-        team.insert(lv);
-        divideTeam(lv + 1, end);
-        team.erase(lv);
+        int newSum1 = sum1;
+        for(auto it = team1.begin(); it != team1.end(); it++)
+            newSum1 += synergy[lv][*it] + synergy[*it][lv];
+        team1.insert(lv);
+        divideTeam(lv + 1, end, newSum1, sum2);
+        team1.erase(lv);
     }
 }
