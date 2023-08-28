@@ -1,10 +1,10 @@
 #include <iostream>
-#include <set>
+#include <unordered_set>
 using namespace std;
 
 int synergy[20][20] = {0};
-set<int> team1;
-set<int> team2;
+unordered_set<int> team1;
+unordered_set<int> team2;
 int min = INT32_MAX;
 
 void divideTeam(int lv, int end, int sum1, int sum2);
