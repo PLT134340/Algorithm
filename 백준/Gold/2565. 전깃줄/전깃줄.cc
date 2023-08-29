@@ -1,26 +1,26 @@
 #include <iostream>
+#include <map>
+#include <vector>
 using namespace std;
-
-bool line[501][501] = {false};
-int dp[501][501] = {0};
 
 int main() {
     int n;
     cin >> n;
 
+    map<int, int> m;
     for (int i = 0; i < n; i++) {
         int a, b;
         cin >> a >> b;
-        line[a][b] = true;
+        m.insert({a, b});
     }
     
-    for(int i = 1; i <= 500; i++)
-        for(int j = 1; j <= 500; j++)
-            if(line[i][j])
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            else
-                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
-                
-    cout << n - dp[500][500] << '\n';
+    vector<int> v;
+    for(auto it = m.begin(); it != m.end(); it++)
+        if(v.empty() || v.back() < it->second)
+            v.push_back(it->second);
+        else if(v.back() >= it->second)
+            *lower_bound(v.begin(), v.end(), it->second) = it->second;
+    
+    cout << n - v.size() << '\n';
     return 0;
 }
