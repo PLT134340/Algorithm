@@ -6,6 +6,10 @@ int ascend[1000] = {0};
 int descend[1000] = {0};
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+
     int n;
     cin >> n;
     for (int i = 0; i < n; i++)
@@ -13,23 +17,23 @@ int main() {
 
     for (int i = 0; i < n; i++) {
         int val = 0;
-        for(int j = 0; j < i; j++)
-            if(arr[i] > arr[j] && val < ascend[j])
+        for (int j = 0; j < i; j++)
+            if (arr[i] > arr[j] && val < ascend[j])
                 val = ascend[j];
         ascend[i] = val + 1;
     }
     for (int i = n - 1; i >= 0; i--) {
         int val = 0;
-        for(int j = n - 1; j > i; j--)
-            if(arr[i] > arr[j] && val < descend[j])
+        for (int j = n - 1; j > i; j--)
+            if (arr[i] > arr[j] && val < descend[j])
                 val = descend[j];
         descend[i] = val + 1;
     }
-    
+
     int max = 0;
-    for(int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
         int tmp = ascend[i] + descend[i] - 1;
-        if(max < tmp)
+        if (max < tmp)
             max = tmp;
     }
     cout << max << '\n';
