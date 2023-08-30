@@ -6,6 +6,10 @@ int whiteFirstSum[2001][2001] = {0};
 int blackFirstSum[2001][2001] = {0};
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    
     int n, m, k;
     cin >> n >> m >> k;
     for (int i = 1; i <= n; i++) {
