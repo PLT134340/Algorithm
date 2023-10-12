@@ -1,7 +1,6 @@
 #include <iostream>
 #include <queue>
 #include <vector>
-#include <set>
 using namespace std;
 
 struct edge {
@@ -19,6 +18,10 @@ struct compare {
 int prim(int v, vector<vector<edge>> &edges);
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    
     int v, e;
     cin >> v >> e;
     vector<vector<edge>> edges(v + 1);
@@ -34,22 +37,25 @@ int main() {
 }
 
 int prim(int v, vector<vector<edge>> &edges) {
-    set<int> visited;
-    visited.insert(1);
+    vector<bool> isVisited(v + 1, false);
+    isVisited[1] = true;
+    int visitedVertex = 1;
+    
     priority_queue<edge, vector<edge>, compare> pq;
     for (edge e : edges[1])
         pq.push(e);
     
     int result = 0;
-    while(visited.size() < v) {
+    while(visitedVertex < v) {
         auto [start, end, weight] = pq.top();
         pq.pop();
         
-        if(visited.find(end) == visited.end()) {
+        if(!isVisited[end]) {
             result += weight;
-            visited.insert(end);
+            isVisited[end] = true;
+            visitedVertex++;
             for (edge e : edges[end])
-                if(visited.find(e.end) == visited.end())
+                if(!isVisited[e.end])
                     pq.push(e);
         }
     }
