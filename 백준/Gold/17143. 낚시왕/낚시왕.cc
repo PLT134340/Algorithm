@@ -91,6 +91,10 @@ Shark* Shark::move() {
 void print_matrix(vector<vector<Shark*>> &matrix);
 
 int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    
     cin >> R >> C >> M;
     
     matrix = vector(R, vector<Shark*>(C, nullptr));
