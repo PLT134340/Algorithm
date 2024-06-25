@@ -23,12 +23,10 @@ class Main {
             line = br.readLine().split(" ");
             
             int id = manager.act(seq[i++], line);
-            // System.out.println(id);
             result.add(id);
             
             while (result.size() < t && id != Integer.parseInt(line[0])) {
                 id = manager.act(seq[i++], line);
-                // System.out.println(id);
                 result.add(id);
             }
         }
@@ -42,31 +40,15 @@ class Main {
         bw.close();
     }   
     
-    static class User {
-        private Set<Integer> resource;
-        
-        public User() {
-            resource = new HashSet<>();
-        }
-        
-        public void acquire(int n) {
-            resource.add(n);
-        }
-        
-        public void release(int n) {
-            resource.remove(n);
-        }
-    }
-    
     static class Manager {
-        private User[] users;
+        private Set<Integer>[] resource;
         private int[][] queue;
         private Set<Integer> usingResource;
         
         public Manager(int n) {
-            users = new User[n];
+            resource = new HashSet[n];
             for (int i = 0; i < n; i++)
-                users[i] = new User();
+                resource[i] = new HashSet<>();
             queue = new int[n][2];
             usingResource = new HashSet<>();
         }
@@ -85,7 +67,7 @@ class Main {
                 return id;   
             else if (line[1].equals("release")) {
                 int n = Integer.parseInt(line[2]);
-                users[seq].release(n);
+                resource[seq].remove(n);
                 usingResource.remove(n);
                 return id;
             }
@@ -102,7 +84,7 @@ class Main {
                 return false;
             }
                 
-            users[seq].acquire(n);
+            resource[seq].add(n);
             usingResource.add(n);
             return true;
         }
