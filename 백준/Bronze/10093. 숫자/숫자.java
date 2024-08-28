@@ -4,8 +4,8 @@ class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        long a = scanner.nextInt();
-        long b = scanner.nextInt();
+        long a = scanner.nextLong();
+        long b = scanner.nextLong();
 
         if (a > b) {
             long tmp = b;
@@ -15,9 +15,13 @@ class Main {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append(Math.max(0, b - a - 1)).append("\n");
-        for (long i = a + 1; i < b; i++)
-            sb.append(i).append(" ");
+        sb.append(Math.max(0, b - a - 1));
+
+        if (a + 1 < b) {
+            sb.append("\n");
+            for (long i = a + 1; i < b; i++)
+                sb.append(i).append(" ");
+        }
 
         System.out.println(sb);
     }
