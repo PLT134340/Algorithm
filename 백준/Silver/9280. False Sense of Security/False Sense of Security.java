@@ -7,6 +7,7 @@ class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         String encryptedCode = "";
+        StringBuilder answer = new StringBuilder();
 
         while ((encryptedCode = br.readLine()) != null) {
             int[] length = new int[encryptedCode.length()];
@@ -22,7 +23,6 @@ class Main {
                 middleText.append(moss.getCode());
             }
 
-            StringBuilder plaintext = new StringBuilder();
             int prevIdx = 0;
 
             for (int i = length.length - 1; i >= 0; i--) {
@@ -32,12 +32,14 @@ class Main {
                 if (moss == null)
                     throw new RuntimeException();
 
-                plaintext.append(moss.character);
+                answer.append(moss.character);
                 prevIdx += length[i];
             }
 
-            System.out.println(plaintext);
+            answer.append("\n");
         }
+
+        System.out.print(answer);
     }
 
     public enum Moss {
